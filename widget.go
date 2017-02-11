@@ -12,6 +12,8 @@ import (
 // event mixins
 type WgtMgr map[string]WgtInfo
 
+var ActiveWgtId string
+
 type WgtInfo struct {
 	Handlers map[string]func(Event)
 	WgtRef   Widget
@@ -88,6 +90,10 @@ func (wm WgtMgr) WgtHandlersHook() func(Event) {
 				if e.Path=="/sys/mouse" {
 					m_e := e.Data.(EvtMouse)
 					if v.IncludePoint(m_e.X, m_e.Y) {
+						v.Handlers[k](e)
+					}
+				} else if e.Path[0:8]=="/sys/kbd" {
+					if v.Id==ActiveWgtId {
 						v.Handlers[k](e)
 					}
 				} else {
