@@ -34,6 +34,11 @@ func Init() error {
 		return err
 	}
 
+	// Enable mouse
+	inputMode := tm.InputAlt
+	inputMode |= tm.InputMouse
+	tm.SetInputMode(inputMode)
+
 	sysEvtChs = make([]chan Event, 0)
 	go hookTermboxEvt()
 
