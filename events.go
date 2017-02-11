@@ -206,6 +206,21 @@ func (es *EvtStream) Handle(path string, handler func(Event)) {
 	es.Handlers[cleanPath(path)] = handler
 }
 
+func findMatchEx(mux map[string]func(Event, Widget), path string) string {
+	n := -1
+	pattern := ""
+	for m := range mux {
+		if !isPathMatch(m, path) {
+			continue
+		}
+		if len(m) > n {
+			pattern = m
+			n = len(m)
+		}
+	}
+	return pattern
+}
+
 func findMatch(mux map[string]func(Event), path string) string {
 	n := -1
 	pattern := ""
