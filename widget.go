@@ -15,17 +15,25 @@ type WgtMgr map[string]WgtInfo
 type WgtInfo struct {
 	Handlers map[string]func(Event)
 	WgtRef   Widget
+	BlockRef *Block
 	Id       string
 }
 
 type Widget interface {
 	Id() string
+	BlockRef() *Block
+}
+
+func (w WgtInfo) IncludePoint(X int, Y int) bool {
+	b := w.BlockRef
+	return b.X<X && b.X+b.Width>X && b.Y<Y && b.Y+b.Height>Y
 }
 
 func NewWgtInfo(wgt Widget) WgtInfo {
 	return WgtInfo{
 		Handlers: make(map[string]func(Event)),
 		WgtRef:   wgt,
+		BlockRef: wgt.BlockRef(),
 		Id:       wgt.Id(),
 	}
 }
@@ -77,7 +85,14 @@ func (wm WgtMgr) WgtHandlersHook() func(Event) {
 	return func(e Event) {
 		for _, v := range wm {
 			if k := findMatch(v.Handlers, e.Path); k != "" {
-				v.Handlers[k](e)
+				if e.Path=="/sys/mouse" {
+					m_e := e.Data.(EvtMouse)
+					if v.IncludePoint(m_e.X, m_e.Y) {
+						v.Handlers[k](e)
+					}
+				} else {
+					v.Handlers[k](e)
+				}
 			}
 		}
 	}

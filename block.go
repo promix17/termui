@@ -148,6 +148,10 @@ func (b Block) Id() string {
 	return b.id
 }
 
+func (b *Block) BlockRef() (*Block) {
+	return b
+}
+
 // Align computes box model
 func (b *Block) Align() {
 	// outer
