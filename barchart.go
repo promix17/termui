@@ -129,20 +129,20 @@ func (bc *BarChart) Buffer() Buffer {
 			k += w
 		}
 		// plot num
-		for j := 0; j < len(bc.dataNum[i]); j++ {
-			c := Cell{
-				Ch: bc.dataNum[i][j],
-				Fg: bc.NumColor,
-				Bg: barBg,
-			}
+		//for j := 0; j < len(bc.dataNum[i]); j++ {
+		//	c := Cell{
+		//		Ch: bc.dataNum[i][j],
+		//		Fg: bc.NumColor,
+		//		Bg: barBg,
+		//	}
 
-			if h == 0 {
-				c.Bg = bc.Bg
-			}
-			x := bc.innerArea.Min.X + oftX + (bc.BarWidth-len(bc.dataNum[i]))/2 + j
-			y := bc.innerArea.Min.Y + bc.innerArea.Dy() - 2
-			buf.Set(x, y, c)
-		}
+		//	if h == 0 {
+		//		c.Bg = bc.Bg
+		//	}
+		//	x := bc.innerArea.Min.X + oftX + (bc.BarWidth-len(bc.dataNum[i]))/2 + j
+		//	y := bc.innerArea.Min.Y + bc.innerArea.Dy() - 2
+		//	buf.Set(x, y, c)
+		//}
 	}
 
 	return buf
