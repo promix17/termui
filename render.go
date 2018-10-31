@@ -6,7 +6,7 @@ package termui
 
 import (
 	"image"
-	"io"
+	//"io"
 	"sync"
 	"time"
 
@@ -14,11 +14,11 @@ import (
 
 	"os"
 
-	"runtime/debug"
+	//"runtime/debug"
 
-	"bytes"
+	// "bytes"
 
-	"github.com/maruel/panicparse/stack"
+	// "github.com/maruel/panicparse/stack"
 	tm "github.com/nsf/termbox-go"
 )
 
@@ -109,18 +109,18 @@ func render(bs ...Bufferer) {
 			Close()
 			fmt.Fprintf(os.Stderr, "Captured a panic(value=%v) when rendering Bufferer. Exit termui and clean terminal...\nPrint stack trace:\n\n", e)
 			//debug.PrintStack()
-			gs, err := stack.ParseDump(bytes.NewReader(debug.Stack()), os.Stderr)
-			if err != nil {
-				debug.PrintStack()
-				os.Exit(1)
-			}
-			p := &stack.Palette{}
-			buckets := stack.SortBuckets(stack.Bucketize(gs, stack.AnyValue))
-			srcLen, pkgLen := stack.CalcLengths(buckets, false)
-			for _, bucket := range buckets {
-				io.WriteString(os.Stdout, p.BucketHeader(&bucket, false, len(buckets) > 1))
-				io.WriteString(os.Stdout, p.StackLines(&bucket.Signature, srcLen, pkgLen, false))
-			}
+			// gs, err := stack.ParseDump(bytes.NewReader(debug.Stack()), os.Stderr)
+			// if err != nil {
+			// 	debug.PrintStack()
+			// 	os.Exit(1)
+			// }
+			// p := &stack.Palette{}
+			// buckets := stack.SortBuckets(stack.Bucketize(gs, stack.AnyValue))
+			// srcLen, pkgLen := stack.CalcLengths(buckets, false)
+			// for _, bucket := range buckets {
+			// 	io.WriteString(os.Stdout, p.BucketHeader(&bucket, false, len(buckets) > 1))
+			// 	io.WriteString(os.Stdout, p.StackLines(&bucket.Signature, srcLen, pkgLen, false))
+			// }
 			os.Exit(1)
 		}
 	}()
