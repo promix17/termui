@@ -126,9 +126,7 @@ func hookTermboxEvt() {
 		e := termbox.PollEvent()
 
 		for _, c := range sysEvtChs {
-			go func(ch chan Event) {
-				ch <- crtTermboxEvt(e)
-			}(c)
+			c <- crtTermboxEvt(e)
 		}
 	}
 }
